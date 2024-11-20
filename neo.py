@@ -5,9 +5,6 @@ import json
 import search
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import http.server
-import socketserver
-import os
 
 
 genai.configure(api_key="")  # Sostituisci con la tua chiave API
@@ -69,7 +66,7 @@ chat_session = model.start_chat(history=[])
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/", methods=['GET'])
+@app.route("/ask", methods=['GET'])
 def ask():
     keywords = request.args.get('keywords')
     if keywords:
@@ -86,16 +83,6 @@ def ask():
         return json.dumps(message)
     else:
         return "Missing keywords parameter", 400
-
-PORT = 8501
-
-class MyHandler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=os.getcwd(), **kwargs)
-
-with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
-    print("Serving at port", PORT)
-    httpd.serve_forever()
 
 
 if __name__ == '__main__':

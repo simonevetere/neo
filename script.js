@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadContent(keywords, iframeId) {
-  fetch(`http://localhost:8081/?keywords=${keywords}`)
+  fetch(`/ask?keywords=${keywords}`)
     .then(response => response.json())
     .then(data => {
       const startIndex = data.content.indexOf("```html") + 7;
